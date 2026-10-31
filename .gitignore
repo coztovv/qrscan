@@ -1,0 +1,23 @@
+# gradle
+.gradle/
+build/
+app/build/
+captures/
+.cxx/
+.externalNativeBuild/
+
+# local
+local.properties
+*.iml
+.idea/
+.DS_Store
+
+# tools
+tools/*.png
+shot-*.png
+build-log.txt
+*.log
+
+# keystores
+*.jks
+*.keystore
