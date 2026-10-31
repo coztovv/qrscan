@@ -59,13 +59,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -349,22 +347,22 @@ private fun ScannerOverlay() {
             val top = (size.height - side) / 2f
             val right = left + side
             val bottom = top + side
-            val corner = 34.dp.toPx()
+            val corner = 30.dp.toPx()
 
-            val hole = Path().apply {
-                fillType = PathFillType.EvenOdd
-                addRect(Rect(0f, 0f, size.width, size.height))
-                addRoundRect(
-                    RoundRect(
-                        rect = Rect(left, top, right, bottom),
-                        cornerRadius = CornerRadius(corner, corner)
-                    )
-                )
-            }
-            drawPath(hole, Color.Black.copy(alpha = 0.55f))
+            // ровное затемнение без выреза — никаких теней и грязных кромок
+            drawRect(Color.Black.copy(alpha = 0.38f))
 
-            val len = side * 0.13f
-            val strokeWidth = 4.5.dp.toPx()
+            // тонкий контур рамки
+            drawRoundRect(
+                color = Color.White.copy(alpha = 0.20f),
+                topLeft = Offset(left, top),
+                size = Size(side, side),
+                cornerRadius = CornerRadius(corner, corner),
+                style = Stroke(width = 1.5.dp.toPx())
+            )
+
+            val len = side * 0.11f
+            val strokeWidth = 4.dp.toPx()
             val bracket = Color.White
 
             fun line(start: Offset, end: Offset) = drawLine(

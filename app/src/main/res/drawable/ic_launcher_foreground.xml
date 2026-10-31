@@ -5,22 +5,31 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- три «глаза» QR -->
-    <path
-        android:fillColor="#1B1B1F"
-        android:fillType="evenOdd"
-        android:pathData="M28,28 h22 v22 h-22 z M34,34 h10 v10 h-10 z" />
-    <path
-        android:fillColor="#1B1B1F"
-        android:fillType="evenOdd"
-        android:pathData="M58,28 h22 v22 h-22 z M64,34 h10 v10 h-10 z" />
-    <path
-        android:fillColor="#1B1B1F"
-        android:fillType="evenOdd"
-        android:pathData="M28,58 h22 v22 h-22 z M34,64 h10 v10 h-10 z" />
+    <group
+        android:pivotX="0"
+        android:pivotY="0"
+        android:scaleX="0.78"
+        android:scaleY="0.78"
+        android:translateX="11.88"
+        android:translateY="11.88">
 
-    <!-- модули -->
-    <path
-        android:fillColor="#1B1B1F"
-        android:pathData="M58,58 h7 v7 h-7 z M71,58 h9 v9 h-9 z M58,71 h9 v9 h-9 z M73,73 h7 v7 h-7 z" />
+        <!-- три «глаза» QR -->
+        <path
+            android:fillColor="#1B1B1F"
+            android:fillType="evenOdd"
+            android:pathData="M28,28 h22 v22 h-22 z M34,34 h10 v10 h-10 z" />
+        <path
+            android:fillColor="#1B1B1F"
+            android:fillType="evenOdd"
+            android:pathData="M58,28 h22 v22 h-22 z M64,34 h10 v10 h-10 z" />
+        <path
+            android:fillColor="#1B1B1F"
+            android:fillType="evenOdd"
+            android:pathData="M28,58 h22 v22 h-22 z M34,64 h10 v10 h-10 z" />
+
+        <!-- модули -->
+        <path
+            android:fillColor="#1B1B1F"
+            android:pathData="M58,58 h7 v7 h-7 z M71,58 h9 v9 h-9 z M58,71 h9 v9 h-9 z M73,73 h7 v7 h-7 z" />
+    </group>
 </vector>
