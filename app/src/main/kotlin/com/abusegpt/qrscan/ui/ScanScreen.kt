@@ -63,6 +63,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -347,43 +349,56 @@ private fun ScannerOverlay() {
             val top = (size.height - side) / 2f
             val right = left + side
             val bottom = top + side
-            val corner = 30.dp.toPx()
 
             // ровное затемнение без выреза — никаких теней и грязных кромок
             drawRect(Color.Black.copy(alpha = 0.38f))
 
-            // тонкий контур рамки
-            drawRoundRect(
-                color = Color.White.copy(alpha = 0.20f),
-                topLeft = Offset(left, top),
-                size = Size(side, side),
-                cornerRadius = CornerRadius(corner, corner),
-                style = Stroke(width = 1.5.dp.toPx())
-            )
-
-            val len = side * 0.11f
+            val radius = 14.dp.toPx()
+            val len = side * 0.12f
             val strokeWidth = 4.dp.toPx()
-            val bracket = Color.White
 
-            fun line(start: Offset, end: Offset) = drawLine(
-                color = bracket,
-                start = start,
-                end = end,
-                strokeWidth = strokeWidth,
-                cap = StrokeCap.Round
+            fun bracket(path: Path) = drawPath(
+                path = path,
+                color = Color.White,
+                style = Stroke(
+                    width = strokeWidth,
+                    cap = StrokeCap.Round,
+                    join = StrokeJoin.Round
+                )
             )
 
-            line(Offset(left, top + len), Offset(left, top))
-            line(Offset(left, top), Offset(left + len, top))
-
-            line(Offset(right - len, top), Offset(right, top))
-            line(Offset(right, top), Offset(right, top + len))
-
-            line(Offset(left, bottom - len), Offset(left, bottom))
-            line(Offset(left, bottom), Offset(left + len, bottom))
-
-            line(Offset(right - len, bottom), Offset(right, bottom))
-            line(Offset(right, bottom), Offset(right, bottom - len))
+            bracket(
+                Path().apply {
+                    moveTo(left, top + len)
+                    lineTo(left, top + radius)
+                    quadraticTo(left, top, left + radius, top)
+                    lineTo(left + len, top)
+                }
+            )
+            bracket(
+                Path().apply {
+                    moveTo(right, top + len)
+                    lineTo(right, top + radius)
+                    quadraticTo(right, top, right - radius, top)
+                    lineTo(right - len, top)
+                }
+            )
+            bracket(
+                Path().apply {
+                    moveTo(left, bottom - len)
+                    lineTo(left, bottom - radius)
+                    quadraticTo(left, bottom, left + radius, bottom)
+                    lineTo(left + len, bottom)
+                }
+            )
+            bracket(
+                Path().apply {
+                    moveTo(right, bottom - len)
+                    lineTo(right, bottom - radius)
+                    quadraticTo(right, bottom, right - radius, bottom)
+                    lineTo(right - len, bottom)
+                }
+            )
 
             val lineY = top + side * (0.08f + 0.84f * progress)
             val brush = Brush.horizontalGradient(
